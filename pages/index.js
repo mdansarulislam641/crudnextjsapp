@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import { BiUserPlus } from "react-icons/bi";
+import Table from '@/Components/Table/Table';
+import EmployeeForm from '@/Components/EmployeeForm/EmployeeForm';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -12,15 +14,26 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='py-5'>
+      <main className='py-5 max-w-screen-xl mx-auto'>
         <h1 className='text-center text-4xl font-bold py-10'>Employee Management</h1>
-      <div className="max-w-screen-xl mx-auto flex justify-between py-5 border-b">
+      <div className=" flex justify-between py-5 border-b">
+        {/* add employee field */}
         <div className="left flex gap-3">
           <div className="flex bg-indigo-500 gap-2 text-white py-2 px-4 border rounded-md">
             Add Employee <BiUserPlus size={23}/>
           </div>
         </div>
-      </div>
+    </div>
+    {/* employee form */}
+    <div>
+        <EmployeeForm></EmployeeForm>
+    </div>
+
+
+        {/* table employee */}
+        <div>
+          <Table></Table>
+        </div>      
          
       </main>
     </>
