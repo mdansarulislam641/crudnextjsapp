@@ -1,10 +1,13 @@
-import { BiCheck } from "react-icons/bi"
-export default function Success ({message}){
-    return (
-        <div className="flex justify-center items-center border  w-3/6 mx-auto my-10 py-2 text-xl bg-success ">
-            <div >
-                    <h2 className="text-white flex items-center">{message}<BiCheck size={30} color={'rgb(73,88,55)'}></BiCheck></h2>
+import { BiCheck } from "react-icons/bi";
+
+const Success = ({message}) =>{
+    return(
+        <div className="flex justify-center items-center my-10">
+            <div className="border-2 flex items-center justify-center w-96 text-center  border-green-600 px-3 py-2">
+               {message} <BiCheck size={25} className='text-green-700'></BiCheck>
             </div>
         </div>
     )
 }
+
+export default Success ;

@@ -1,27 +1,32 @@
-import { useReducer } from "react";
-import { BiPlus } from "react-icons/bi";
-import Success from "../Success";
+
+import { useReducer } from 'react';
+import { BiPlus } from 'react-icons/bi';
+import Error from './Error';
+import Success from './Success';
 
 
-function EmployeeForm (){
-    const handleReducer = (state , event ) =>{
+const AddUserForm = () => {
+    const handleReducer = (state , event) =>{
         return {
-            ...state , 
-            [event.target.name] : event.target.value 
+            ...state ,
+            [event.target.name] : event.target.value
+        }
+    }
+    const [formData , setFormData] = useReducer(handleReducer ,{});
+    const handleFormData = (event) =>{
+        event.preventDefault()
+        console.log(formData)
+        if(Object.keys(formData).length < 1) {
+            console.log('no data added');
         }
     }
 
-    const [formData , setFormData] = useReducer(handleReducer , {});
-    const handleFormData = (event) =>{
-        event.preventDefault();
-        if(Object.keys(formData).length == 0){
-            return console.log('no form data available')
-        }
-     
+    if(Object.keys(formData).length > 0){
+        return <Error message={"Error"}></Error>
     }
-    if(Object.keys(formData).length > 0)return <Success message={'Data added'}></Success>
     return (
-       <form onSubmit={handleFormData} className="grid grid-cols-2 gap-5 w-2/3 items-center py-10">
+        <div>
+             <form onSubmit={handleFormData} className="grid grid-cols-2 gap-5 w-2/3 items-center py-10">
         <div className="input-type my-2">
             <input onChange={setFormData} className="border border-1 w-full px-5 py-1 focus:outline-none focus:border-indigo-500 rounded-md" type="text" placeholder="Your First Name" name='firstName' />
         </div>
@@ -51,6 +56,8 @@ function EmployeeForm (){
             <button className="px-5 flex justify-center items-center py-2 w-1/2 hover:bg-indigo-400 transition duration-200 rounded-lg text-xl text-white bg-green-500">Add <span><BiPlus size={24}></BiPlus></span></button>
         </div>
        </form>
-    )
-}
-export default EmployeeForm ;
+        </div>
+    );
+};
+
+export default AddUserForm;
