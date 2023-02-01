@@ -3,7 +3,7 @@
 import AddUserForm from './AddUserForm';
 import UpdateUserForm from './UpdateUserForm';
 const Form = () => {
-   const flag = false ;
+   const flag = true ;
     return (
         <div>
            {flag ? <AddUserForm/> : <UpdateUserForm/>}

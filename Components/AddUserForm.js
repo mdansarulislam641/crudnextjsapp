@@ -1,6 +1,8 @@
 
+import { getUsers, postUser } from '@/lib/helper';
 import { useReducer } from 'react';
 import { BiPlus } from 'react-icons/bi';
+import { useMutation, useQueryClient } from 'react-query';
 import Error from './Error';
 import Success from './Success';
 
@@ -13,17 +15,34 @@ const AddUserForm = () => {
         }
     }
     const [formData , setFormData] = useReducer(handleReducer ,{});
+    const queryClient = useQueryClient();
+    const mutation = useMutation(postUser, {
+        onSuccess: () =>{
+            queryClient.prefetchQuery('users',getUsers)
+        }
+    })
     const handleFormData = (event) =>{
         event.preventDefault()
         console.log(formData)
         if(Object.keys(formData).length < 1) {
             console.log('no data added');
         }
+        console.log(formData)
+        let {status , salary , lastName, email , birthday ,firstName} = formData ;
+        const model = {
+            name : `${firstName} ${lastName}`,
+            email ,
+            salary ,
+            status: status || "active",
+            date : birthday,
+            avatar : `https://randomuser.me/api/portraits/men/1.jpg`
+        }
+        mutation.mutate(model)
     }
 
-    if(Object.keys(formData).length > 0){
-        return <Error message={"Error"}></Error>
-    }
+    if(mutation.isLoading) return <div>Loading...</div>
+    if(mutation.isError) return <Error message={error.message}/>
+    if(mutation.isSuccess)return <Success message={"data added successfully"}/>
     return (
         <div>
              <form onSubmit={handleFormData} className="grid grid-cols-2 gap-5 w-2/3 items-center py-10">
@@ -44,7 +63,7 @@ const AddUserForm = () => {
         </div>
         <div className="flex gap-5">
         <div className="form-check flex  items-center">
-           <input  onChange={setFormData} type="radio" value='active' name="status" id='isActiveUser' className="form-check-input appearance-none h-4 w-4 rounded-full border border-gray-300 bg-white checked:bg-green-600 checked:border-green-500 focus:outline-none transition  mr-2 duration-200 align-top bg-no-repeat bg-contain cursor-pointer" />
+           <input  onChange={setFormData} type="radio" value='Active' name="status" id='isActiveUser' className="form-check-input appearance-none h-4 w-4 rounded-full border border-gray-300 bg-white checked:bg-green-600 checked:border-green-500 focus:outline-none transition  mr-2 duration-200 align-top bg-no-repeat bg-contain cursor-pointer" />
            <label htmlFor="isActiveUser" className="inline-block text-gray-500">Active</label>
         </div>
         <div className="form-check flex items-center">
